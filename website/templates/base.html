@@ -19,12 +19,25 @@
     </button>
     <div class="collapse navbar-collapse" id="navbar">
       <div class="navbar-nav">
-        <a class="nav-item nav-link" id="login" href="/login">Login</a>
-        <a class="nav-item nav-link" id="signup" href="/sign-up">Sign Up</a>
-        <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-        <a class="nav-item nav-link" id="home" href="/">Home</a>
+        <a class="nav-item nav-link" id="login" href="/login">Bejelentkezés</a>
+        <a class="nav-item nav-link" id="signup" href="/sign-up">Regisztráció</a>
+        <a class="nav-item nav-link" id="logout" href="/logout">Kijelentkezés</a>
+        <a class="nav-item nav-link" id="home" href="/">Kezdőoldal</a>
       </div>
   </nav>
+
+  {% with message = get_flashed_messages(with_categories=true)%}
+  {% if message %}
+  {% for category, message in message %}
+  <div class="alert alert-{{ category }} alert-dismissable fade show" role="{{category}}">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
   <div class="container">
     {% block content %}
     {% endblock %}

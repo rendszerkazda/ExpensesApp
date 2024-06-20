@@ -1,15 +1,40 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import *
+from website.models import User
+from website import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login')
+@auth.route('/login', methods=['GET','POST'])
 def login():
-    return render_template()
+    return render_template("login.html")
 
 @auth.route('/logout')
 def logout():
-    return render_template()
+    return "logout"
 
-@auth.route('/sign-up')
+@auth.route('/sign-up',methods=['GET','POST'])
 def sign_up():
-    return render_template
+    if request.method == 'POST': # if the form is submitted
+        email = request.form.get('email')
+        userName = request.form.get('userName')
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
+        
+        if len(email) < 4:
+            flash("Az email cím túl rövid, adj meg egy hosszabb email címet.", category='danger')
+        elif len(userName) < 2:
+           flash("A felhasználónév túl rövid, adj meg egy hosszabb felhasználónevet.", category='danger')
+        elif password1 != password2:
+           flash("A jelszavak nem egyeznek", category='danger')
+        elif len(password1) < 7:
+           flash("A jelszó legalább 7 karakter hosszú kell legyen", category='danger')
+        else:
+            new_user = User(email=email, first_name=userName, password=generate_password_hash(password1, method='pbkdf2:sha256', salt_length=8))
+            db.session.add(new_user)
+            db.session.commit()
+            flash("Fiók sikeresen létrehozva!", category="success")
+            return redirect(url_for('views.home'))
+           
+    return render_template("sign_up.html")
