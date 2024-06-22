@@ -47,3 +47,9 @@ Az adatbázisban két tábla található:
 - User: Az alkalmazás felhasználói
 - Expenses: Kiadások és bevételek
 
+## Képernyőképek
+![image](https://user-images.githubusercontent.com/57951569/120084073-4b3b1b00-c0c4-11eb-8b3b-3b3b3b3b3b3b.png)
+![image](https://user-images.githubusercontent.com/57951569/120084077-4f679880-c0c4-11eb-8b3b-3b3b3b3b3b3b.png)
+![image](https://user-images.githubusercontent.com/57951569/120084080-52628900-c0c4-11eb-8b3b-3b3b3b3b3b3b.png)
+![image](https://user-images.githubusercontent.com/57951569/120084083-542c4c80-c0c4-11eb-8b3b-3b3b3b3b3b3b.png)
+
