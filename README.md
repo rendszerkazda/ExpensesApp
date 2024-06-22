@@ -5,7 +5,6 @@
 - Flask-Login
 - Flask-SQLAlchemy
 - SQLite
-- Pytest
 - Charts.js
 - Bootstrap
 - HTML
@@ -48,8 +47,14 @@ Az adatbázisban két tábla található:
 - Expenses: Kiadások és bevételek
 
 ## Képernyőképek
-![image](https://user-images.githubusercontent.com/57951569/120084073-4b3b1b00-c0c4-11eb-8b3b-3b3b3b3b3b3b.png)
-![image](https://user-images.githubusercontent.com/57951569/120084077-4f679880-c0c4-11eb-8b3b-3b3b3b3b3b3b.png)
-![image](https://user-images.githubusercontent.com/57951569/120084080-52628900-c0c4-11eb-8b3b-3b3b3b3b3b3b.png)
-![image](https://user-images.githubusercontent.com/57951569/120084083-542c4c80-c0c4-11eb-8b3b-3b3b3b3b3b3b.png)
+![image](https://github.com/rendszerkazda/ExpensesApp/assets/146844112/19d5809c-46a2-4391-ae11-45a5ab6f9d35)
+![image](https://github.com/rendszerkazda/ExpensesApp/assets/146844112/5cfb5a19-c48c-482b-bc2a-1c90288e1aab)
+![image](https://github.com/rendszerkazda/ExpensesApp/assets/146844112/e1852c4e-9bb6-4d13-979e-d88548c94dd7)
+![image](https://github.com/rendszerkazda/ExpensesApp/assets/146844112/1593977e-3b36-4083-9fc1-fa03c09aa5bf)
+![image](https://github.com/rendszerkazda/ExpensesApp/assets/146844112/5c134ab5-73e4-46ef-b7bb-f33188ec8bcf)
+![image](https://github.com/rendszerkazda/ExpensesApp/assets/146844112/df01524b-d31f-49bd-a516-b99c053af255)
+
+
+
+
 
