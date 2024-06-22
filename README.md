@@ -5,7 +5,6 @@
 - Flask-Login
 - Flask-SQLAlchemy
 - SQLite
-- Pytest
 - Charts.js
 - Bootstrap
 - HTML
