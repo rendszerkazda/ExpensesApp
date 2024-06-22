@@ -1,29 +1,41 @@
-{% extends "base.html" %} {% block title %}Login{%endblock%} {%block content%}
-<form method="POST">
-  <h3 align="center">Bejelentkezés</h3>
-  <div class="form-group">
-    <label for="userName">Felhasználónév</label>
-    <input
-      type="text"
-      class="form-control"
-      id="userName"
-      name="userName"
-      placeholder="Adjon meg egy felhasználónevet"
-      required
-    />
-  </div>
-  <div class="form-group">
-    <label for="password">Jelszó</label>
-    <input
-      type="password"
-      class="form-control"
-      id="password"
-      name="password"
-      placeholder="Adja meg a jelszavát"
-      required
-    />
-  </div>
-  <br />
-  <button type="submit" class="btn btn-primary">Bejelentkezés</button>
-</form>
-{%endblock%}
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block css %}
+{{ super() }}
+<style>
+  body {
+    background-image: url("/static/login_bg.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+
+  .content-wrapper {
+    background-color: rgba(240, 255, 240, 0.8);
+    padding: 60px;
+    margin: 20px;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="content-wrapper">
+  <h1 align="center" style="margin-top: 20px;">Bejelentkezés</h1>
+  <form method="POST">
+    <div class="form-group">
+      <label for="userName">Felhasználónév</label>
+      <input type="text" class="form-control" id="userName" name="userName" placeholder="Adja meg a felhasználónevét"
+        required />
+    </div>
+    <div class="form-group">
+      <label for="password">Jelszó</label>
+      <span>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Adja meg a jelszavát"
+          required />
+      </span>
+    </div>
+    <br />
+    <div class="row justify-content-center">
+      <button type="submit" class="btn btn-outline-primary col-11">Bejelentkezés</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

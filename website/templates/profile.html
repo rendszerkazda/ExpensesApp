@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Profil{% endblock %}
+{% block css %}
+{{ super() }}
+<style>
+  body {
+    background-image: url("/static/profile_bg.jpg");
+    background-size: cover;
+  }
+
+  .content-wrapper {
+    background-color: rgba(240, 255, 240, 0.8);
+    padding: 20px;
+    margin: 20px;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="content-wrapper">
+  <h1 align="center" style="font-size: 48px; font-family: sans-serif; margin:20px">Profil</h1>
+  <table class="table table-dark table-striped">
+    <tbody>
+      <tr>
+        <td>Felhasználónév</td>
+        <td>
+          <form method="POST">
+            <input type="userName" id="userName" name="userName" value="{{ user.userName }}">
+        </td>
+        <td>
+          <button type="submit" class="btn btn-primary btn-sm">
+            <i class="material-icons">edit</i>
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td>
+          <input type="email" id="email" name="email" value="{{ user.email }}">
+        </td>
+        <td>
+          <button type="submit" class="btn btn-primary btn-sm">
+            <i class="material-icons">edit</i>
+          </button>
+          </form>
+        </td>
+      </tr>
+      <tr>
+        <td>Jelszó</td>
+        <td>********</td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>Bejegyzések száma</td>
+        <td>{{ count }}</td>
+        <td>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

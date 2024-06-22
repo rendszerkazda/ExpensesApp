@@ -1,7 +1,23 @@
-{% extends "base.html" %} {% block title %}Regisztráció{%endblock%} {%block
-content%}
+{% extends "base.html" %} {% block title %}Regisztráció{%endblock%} 
+{%block css%}
+{{super()}}
+<style>
+  body {
+    background-image: url("/static/signup_bg.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  .content-wrapper {
+    background-color: rgba(240, 255, 240, 0.8);
+    padding: 60px;
+    margin: 20px;
+  }
+</style>
+{%endblock%}
+{%block content%}
+<div class="content-wrapper">
 <form method="POST">
-  <h3 align="center">Regisztráció</h3>
+  <h1 align="center" style="margin-top: 20px;">Regisztráció</h1>
   <div class="form-group">
     <label for="email">Email cím</label>
     <input type="email" class="form-control" id="email" name="email" placeholder="Adja meg az email címét" />
@@ -16,10 +32,12 @@ content%}
     <input type="password" class="form-control" id="password1" name="password1" placeholder="Adja meg a jelszavát" />
   </div>
   <div class="form-group">
-    <label for="password2">Jelszó megerőstése</label>
+    <label for="password2">Jelszó megerősítése</label>
     <input type="password" class="form-control" id="password2" name="password2" placeholder="Jelszó megerősítése" />
   </div>
   <br />
-  <button type="submit" class="btn btn-primary">Regisztráció</button>
-</form>
+  <div style="text-align: center;">
+    <button type="submit" class="col-md-6 btn btn-outline-primary">Regisztráció</button>
+  </div>
+</div>
 {%endblock%}

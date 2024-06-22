@@ -1,3 +1,313 @@
-{% extends "base.html" %} {% block title %}Changer{%endblock%} {%block content%}
-<h1>HELLO BELLO</h1>
-{%endblock%}
+{% extends "base.html" %}
+{% block title %}
+MoneyApp
+{% endblock %}
+{% block css %}
+{{super()}}
+<style>
+    body {
+        background-image: url("/static/home_bg.jpg");
+        background-size: cover;
+        background-position: center;
+    }
+
+    .table {
+        background-color: white;
+    }
+
+    .table th {
+        text-align: center;
+    }
+
+    .table td {
+        text-align: center;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+    }
+
+    .table th {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid black;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .card-style {
+        background-color: white;
+    }
+
+    .chart-container {
+        width: 100%;
+        height: 300px;
+    }
+    .table-container {
+        background-color: rgba(240, 255, 240, 0.8);
+        padding: 20px;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div>
+    <div style="margin: 20px"  class="table-container">
+        <h1 align="center" style="margin:10px">Költségvetési történet</h1>
+        <table class="table table-bordered table-dark table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" style="text-align: center;">ID</th>
+                    <th scope="col" style="text-align: center;">Dátum</th>
+                    <th scope="col" style="text-align: center;">Típus</th>
+                    <th scope="col" style="text-align: center;">Kategória</th>
+                    <th scope="col" style="text-align: center;">Összeg</th>
+                    <th scope="col" style="text-align: center;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                <tr style="text-align:center; vertical-align:middle; background-color:white; color:black">
+                    <th style="{% if expense.type == 'Kiadás' %}background-color:crimson; color:white{% else %}background-color:palegreen; color:darkslategrey{% endif %};"
+                        scope="row">{{loop.index}}</th>
+                    <td>{{expense.date}}</td>
+                    <td>{{expense.type}}</td>
+                    <td>{{expense.category}}</td>
+                    <td>{{expense.amount}}</td>
+                    <td>
+                        <a href="/edit/{{expense.id}}" class="btn btn-outline-primary">Szerkesztés</a>
+                        <a href="/delete/{{expense.id}}" class="btn btn-outline-danger">Törlés</a>
+                    </td>
+                </tr>
+                
+                {% endfor %}
+                <tr>
+                <td colspan="6">
+                <div style="text-align:center">
+                <a href="/add" class="btn btn-primary col-md-6">Új tétel</a>
+                </div>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        <hr style="border: none; border-top: 11px solid rgba(255, 255, 255, 1); margin: 20px 0;">
+    <div class="table-container">
+        <div class="row">
+            <div class="col-xs-10 col-sm-6 col-md-6">
+                <div class="card card-style mb-2">
+                    <div class="card-body">
+                        <div class="chart-container" style="position: relative;">
+                            <canvas id="income_vs_expense"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-10 col-sm-6 col-md-6">
+                <div class="card card-style mb-2">
+                    <div class="card-body">
+                        <div class="chart-container" style="position: relative;">
+                            <canvas id="over_time_expenditure"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-10 col-sm-6 col-md-6">
+                <div class="card card-style mb-2">
+                    <div class="card-body">
+                        <div class="chart-container" style="position: relative;">
+                            <canvas id="income_vs_category"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-10 col-sm-6 col-md-6">
+                <div class="card card-style mb-2">
+                    <div class="card-body">
+                        <div class="chart-container" style="position: relative;">
+                            <canvas id="expense_vs_category"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+        {% block javascript %}
+        <script>
+            let income_vs_expense = document.getElementById("income_vs_expense").getContext('2d');
+            let income_vs_category = document.getElementById("income_vs_category").getContext('2d');
+
+            let income_vs_expense_chart = new Chart(income_vs_expense, {
+                type: 'doughnut',
+                data: {
+                    labels: {{ ie_labels | safe}},
+            datasets: [{
+                label: "Bevétel vs Kiadás",
+                data: {{ ie_values | safe}},
+                backgroundColor: {% if ie_labels[0] == 'Bevétel' %} ['#98FB98', '#DC143C']{% else %} ['#DC143C', '#98FB98']{% endif %},
+            borderWidth: 1,
+                hoverBorderColor: "black",
+                    hoverBorderWidth: 2,
+                        hoverBackgroundColor: '#AFEEEE',
+                            pointHoverRadius: 5
+                    }],
+                },
+            options: {
+                title: {
+                    display: true,
+                        text: "Bevétel vs Kiadás",
+                            fontSize: 20,
+                    },
+                legend: {
+                    position: "right",
+                        labels: {
+                        fontColor: "gray"
+                    },
+                    display: true,
+                    },
+
+                elements: {
+                    hitRadius: 3,
+                    }
+            }
+            });
+            let income_vs_category_chart = new Chart(income_vs_category, {
+                type: 'bar',
+                data: {
+                    labels: {{ ic_labels | safe}},
+            datasets: [{
+                label: "Bevételek",
+                data: {{ ic_values | safe}},
+                backgroundColor: ['#98FB98', '#AFEEEE', '#00CED1', '#008080', '#DC143C', '#00FF7F', '#00FA9A', '#98FB98', '#AFEEEE', '#00CED1', '#008080', '#DC143C', '#00FF7F', '#00FA9A'],
+                borderWidth: 1,
+                hoverBorderColor: "black",
+                hoverBorderWidth: 2,
+                hoverBackgroundColor: '#AFEEEE',
+                pointHoverRadius: 5
+                    }],
+                },
+            options: {
+                title: {
+                    display: true,
+                        text: "Bevétel kategóriánként",
+                    fontSize: 20,
+                    },
+                legend: {
+                    position: "bottom",
+                        labels: {
+                        fontColor: "gray"
+                    },
+                    display: false,
+                    },
+                elements: {
+                    hitRadius: 3,
+                    },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            min: 0, // set the minimum value for the y-axis
+                        }
+                    }]
+                }
+            }
+            });
+
+            let expense_vs_category = new Chart(document.getElementById("expense_vs_category").getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: {{ ec_labels | safe}},
+            datasets: [{
+                label: "Kiadások",
+                data: {{ ec_values | safe}},
+                backgroundColor: ['#FF8888', '#FFAA88', '#FFCC88', '#FFEE88', '#FFFF88', '#EEFF88', '#CCFF88'],
+                borderWidth: 1,
+                hoverBorderColor: "black",
+                hoverBorderWidth: 2,
+                hoverBackgroundColor: '#AFEEEE',
+                pointHoverRadius: 5
+                    }],
+                },
+            options: {
+                title: {
+                    display: true,
+                        text: "Kiadás kategóriánként",
+                            fontSize: 20,
+                    },
+                legend: {
+                    position: "bottom",
+                        labels: {
+                        fontColor: "gray"
+                    },
+                    display: false,
+                    },
+                elements: {
+                    hitRadius: 3,
+                    },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            min: 0, // set the minimum value for the y-axis
+                        }
+                    }]
+                }
+            }
+            });
+        
+        let over_time_expenditure = new Chart(document.getElementById('over_time_expenditure').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: {{date_labels | safe}},
+                datasets: [{
+                    label: "Kiadások",
+                    data: {{over_time_expenditure | safe}},
+                    backgroundColor: 'rgba(0, 0, 139, 0.5)',
+                    borderColor: '#FF69B4',
+                    borderWidth: 1,
+                    hoverBorderColor: "black",
+                    hoverBorderWidth: 2,
+                    hoverBackgroundColor: '#AFEEEE',
+                    pointHoverRadius: 5
+                }],
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Kiadás időbeli alakulása",
+                    fontSize: 20,
+                },
+                legend: {
+                    position: "right",
+                    labels: {
+                        fontColor: "gray"
+                    },
+                    display: false,
+                },
+                elements: {
+                    hitRadius: 3,
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            min: 0, // set the minimum value for the y-axis
+                        }
+                    }]
+                }
+            }
+        })
+        </script>
+    {% endblock %}
+    </div>

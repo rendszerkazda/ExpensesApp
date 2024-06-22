@@ -7,13 +7,16 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
-    first_name = db.Column(db.String(150))
+    userName = db.Column(db.String(150))
     expensess = db.relationship('Expenses')
 
 class Expenses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.String(10000))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
-    category = db.Column(db.String(150))
-    amount = db.Column(db.Integer)
+    date = db.Column(db.Date(), default=func.now())
+    type = db.Column(db.String(30),default='income', nullable=False)
+    category = db.Column(db.String(30), nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
+    def __str__(self):
+        return self.id
